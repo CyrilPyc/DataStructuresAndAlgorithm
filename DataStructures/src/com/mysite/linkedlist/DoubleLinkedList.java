@@ -1,33 +1,49 @@
 package com.mysite.linkedlist;
 
-import java.text.SimpleDateFormat;
-
 /**
  * @author Cyril.P
- * @date 2020-08-21-13:19
+ * @date 2020-10-09-17:01
  */
-public class SingleLinkedList {
+public class DoubleLinkedList {
 
     /**
      * 初始化一个头节点，头节点不要动
      */
-    private Wife head = new Wife(0, "", 0);
+    private Wife2 head = new Wife2(0, "", 0);
 
-    public Wife getHead() {
+    public Wife2 getHead() {
         return head;
     }
 
     /**
-     * 添加节点到单向链表
-     * 思路，当不考虑编号顺序时，
-     * 1.找到当前链表的最后节点
-     * 2.将最后这个节点的next 指向 新的节点
-     *
+     * 显示链表[遍历]
+     */
+    public void list() {
+        //判断链表是否为空
+        if (head.getNext() == null) {
+            System.out.println("你没有老婆");
+            return;
+        }
+        //因为头节点不能动，因此需要辅助变量来遍历
+        Wife2 temp = head.getNext();
+        while (true) {
+            if (temp == null) {
+                break; //判断是否到链表最后
+            }
+            //输出节点的信息
+            System.out.println(temp);
+            //将 tamp 后移，一定不能忘！
+            temp = temp.getNext();
+        }
+    }
+
+    /**
+     * 添加一个节点到双向链表的最后
      * @param wife
      */
-    public void add(Wife wife) {
+    public void add(Wife2 wife) {
         //因为 head 节点不能动，因此需要一个辅助变量 temp
-        Wife temp = head;
+        Wife2 temp = head;
         //遍历链表，找到最后
         while (true) {
             //找到链表的最后
@@ -38,8 +54,9 @@ public class SingleLinkedList {
             temp = temp.getNext();
         }
         //当退出 while 循环时，temp 就指向了链表的最后
-        //将最后这个节点的next指向新的节点
+        //形成一个双向链表
         temp.setNext(wife);
+        wife.setPre(temp);
     }
 
     /**
@@ -48,10 +65,10 @@ public class SingleLinkedList {
      *
      * @param wife
      */
-    public void addByOrder(Wife wife) {
+    public void addByOrder(Wife2 wife) {
         //因为头节点不能动，因此我们仍然需要通过一个辅助变量指针来帮助找到添加的位置
         //因为是单链表，因此我们找的 temp 是位于添加位置的前一个节点，否则插入不了
-        Wife temp = head;
+        Wife2 temp = head;
         //flag 标志添加添加的编号是否存在，默认为false
         boolean flag = false;
         while (true) {
@@ -78,16 +95,19 @@ public class SingleLinkedList {
         } else {
             //插入到链表中，temp的后面
             wife.setNext(temp.getNext());
+            wife.setPre(temp);
             temp.setNext(wife);
+            if (temp.getNext()!=null) {
+                temp.getNext().setPre(wife);
+            }
         }
     }
 
     /**
-     * 修改节点的信息，根据 id 编号l来修改，即 id 编号不变
-     * 说明：
-     * 1.根据 newWife 的 id 来修改即可
+     * 修改一个节点的内容
+     * @param newWife
      */
-    public void update(Wife newWife) {
+    public void update(Wife2 newWife) {
         //判断链表是否为空
         if (head.getName() == null) {
             System.out.println("你没有老婆");
@@ -95,7 +115,7 @@ public class SingleLinkedList {
         }
         //找到需要修改的节点，根据 id 编号
         //定义一个辅助变量 temp
-        Wife temp = head.getNext();
+        Wife2 temp = head.getNext();
         //表示是否找到该节点
         boolean flag = false;
         while (true) {
@@ -116,21 +136,32 @@ public class SingleLinkedList {
         } else {//没有找到
             System.out.println("没有在已有老婆编号中找到这个老婆" + newWife.getId() + "欸");
         }
-
     }
 
-    //删除节点
-    //思路
-    //1.head 节点不能动，因此我们需要一个辅助指针变量temp找到待删除节点的前一个节点
-    //2.说明我们在比较时，是 temp.getNext().getId 和 需要删除的节点的 id 比较
+    /**
+     * 从双向链表中删除一个节点
+     * 说明：
+     * 1.对于双向链表，我们可以直接找到要删除的这个节点
+     * 2.找到后，自我删除即可
+     * @param id
+     */
     public void del(int id) {
-        Wife temp = head;
+
+        //判断当前链表是否为空
+        if (head.getNext()==null){
+            System.out.println("根本就没有老婆，咋删");
+            return;
+        }
+
+        Wife2 temp = head.getNext(); //辅助指针变量，此处可以直接指向 head 的下一个节点，区别于单链表是因为删除
+                                     //操作要找到前一个节点，因此要从 head 节点开始。而现在双向链表可以自我删除
+                                     //，因此可以从 head 下一个节点开始
         boolean flag = false; //标志是否找到待删除节点的前一个节点
         while (true) {
-            if (temp.getNext() == null) {
+            if (temp == null) {
                 break;
             }
-            if (temp.getNext().getId() == id) {
+            if (temp.getId() == id) { //此处与单链表相比也做改变，不需要temp的下一个节点相比了，直接temp进行比较
                 flag = true;
                 break;
             }
@@ -138,32 +169,13 @@ public class SingleLinkedList {
         }
         //判断flag
         if (flag) { //找到
-            temp.setNext(temp.getNext().getNext());
+            temp.getPre().setNext(temp.getNext());
+            //如果是最后一个节点，不需要执行下面的操作，否则会出现空指针异常
+            if (temp.getNext()!=null) {
+                temp.getNext().setPre(temp.getPre());
+            }
         } else {
             System.out.println("找不到这个id的老婆" + id);
         }
     }
-
-    /**
-     * 显示链表[遍历]
-     */
-    public void list() {
-        //判断链表是否为空
-        if (head.getNext() == null) {
-            System.out.println("你没有老婆");
-            return;
-        }
-        //因为头节点不能动，因此需要辅助变量来遍历
-        Wife temp = head.getNext();
-        while (true) {
-            if (temp == null) {
-                break; //判断是否到链表最后
-            }
-            //输出节点的信息
-            System.out.println(temp);
-            //将 tamp 后移
-            temp = temp.getNext();
-        }
-    }
-
 }
