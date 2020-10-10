@@ -1,4 +1,4 @@
-package com.mysite.linkedlist;
+package com.mysite.linkedlist.singlelinkedlist;
 
 /**
  * @author Cyril.P

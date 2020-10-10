@@ -1,18 +1,17 @@
-package com.mysite.linkedlist;
+package com.mysite.linkedlist.singlelinkedlist;
 
 /**
  * @author Cyril.P
- * @date 2020-10-09-17:02
+ * @date 2020-08-21-12:57
  */
-public class Wife2 {
+public class Wife {
 
     private Integer id;
     private String name;
     private Integer age;
-    private Wife2 next; //指向下一个节点，默认为null
-    private Wife2 pre; //指向下一个节点，默认为null
+    private Wife next;
 
-    public Wife2(Integer id, String name, Integer age) {
+    public Wife(Integer id, String name, Integer age) {
         this.id = id;
         this.name = name;
         this.age = age;
@@ -42,20 +41,12 @@ public class Wife2 {
         this.age = age;
     }
 
-    public Wife2 getNext() {
+    public Wife getNext() {
         return next;
     }
 
-    public void setNext(Wife2 next) {
+    public void setNext(Wife next) {
         this.next = next;
-    }
-
-    public Wife2 getPre() {
-        return pre;
-    }
-
-    public void setPre(Wife2 pre) {
-        this.pre = pre;
     }
 
     @Override
@@ -63,7 +54,7 @@ public class Wife2 {
         return "我的老婆们{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", age=" + age +
+                ", age='" + age + '\'' +
                 '}';
     }
 }

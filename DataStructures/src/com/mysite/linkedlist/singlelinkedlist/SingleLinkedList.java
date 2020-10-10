@@ -1,6 +1,4 @@
-package com.mysite.linkedlist;
-
-import java.text.SimpleDateFormat;
+package com.mysite.linkedlist.singlelinkedlist;
 
 /**
  * @author Cyril.P

@@ -1,6 +1,7 @@
-package com.mysite.linkedlist;
+package com.mysite.linkedlist.singlelinkedlist;
 
 
+import com.mysite.linkedlist.singlelinkedlist.Wife;
 import org.junit.Test;
 
 import java.util.Stack;
