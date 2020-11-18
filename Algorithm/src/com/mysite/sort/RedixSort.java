@@ -25,7 +25,7 @@ public class RedixSort {
         System.out.println("排序前时间"+startDate);
         long start = System.currentTimeMillis();
 
-        RedixSort(arr);
+        redixSort(arr);
 
         Date date1 = new Date();
         String endDate = simpleDateFormat.format(date1);
@@ -38,7 +38,7 @@ public class RedixSort {
     }
 
     //基数排序方法
-    public static void RedixSort(int[] arr) {
+    public static void redixSort(int[] arr) {
 
         //根据前面的推到过程
         //1、得到数组中最大的数的位数
