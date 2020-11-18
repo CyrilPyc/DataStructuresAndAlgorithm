@@ -40,7 +40,7 @@ public class RedixSort {
     //基数排序方法
     public static void redixSort(int[] arr) {
 
-        //根据前面的推到过程
+        //根据前面的推导过程
         //1、得到数组中最大的数的位数
         int max = arr[0];
         for (int i = 1; i < arr.length; i++) {
